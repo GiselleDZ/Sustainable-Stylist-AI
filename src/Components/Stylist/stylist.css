@@ -1,0 +1,77 @@
+.stylist {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  min-height: 600px;
+  margin: 50px 0 200px 0;
+  border: 1px solid black;
+  padding: 20px 20px 20px 20px;
+}
+
+#chatbox {
+  width: 300px;
+  height: 500px;
+  text-align: right;
+  overflow-y: scroll;
+  align-items: flex-end;
+  align-content: flex-end;
+  scroll-behavior: smooth;
+  white-space: wrap;
+  word-wrap: break-word;
+  overflow-anchor: none;
+  scroll-margin-bottom: 0;
+}
+
+#anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+
+h1 {
+  text-align: left;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-top: 20px;
+}
+
+.textinput {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  text-align: left;
+}
+
+textarea {
+  display: flex;
+  align-content: flex-start;
+  margin: 20px 0 20px 0;
+  padding: 5px;
+  white-space: wrap;
+  word-wrap: break-word;
+}
+
+label {
+  margin-top: -10px;
+  font-size: x-small;
+  text-align: left;
+}
+
+.chat-message {
+  text-align: left;
+  padding: 5px 0 5px 0;
+  width: 90%;
+}
+
+.user {
+  font-weight: 600;
+}
+
+.assistant {
+  font-weight: 400;
+}

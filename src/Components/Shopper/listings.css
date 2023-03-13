@@ -1,0 +1,42 @@
+.depop-listings {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  width: 202px;
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 200px;
+  margin-top: 0;
+}
+
+h4 .product-info {
+  width: 160px;
+  margin-top: 0;
+}
+
+h3 .product-info {
+  margin-top: 0;
+}
+
+.product-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 1px solid black;
+}
