@@ -1,0 +1,33 @@
+.tab {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  text-decoration: none;
+  width: 35px;
+}
+
+.tab-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-transform: uppercase;
+  color: black;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.selected {
+  -webkit-box-shadow: inset 18px -3px 18px -18px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 18px -3px 18px -18px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid black; */
+}
+
+.option {
+  border-width: 0.5px 1px 0.5px 0;
+  border-color: black;
+  border-style: solid;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 11px -1px 18px -6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 11px -1px 18px -6px rgba(0, 0, 0, 0.1);
+}

@@ -7,11 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./Store/store";
 import "./index.css";
 import App from "./App";
-import router from "./router";
+import routes from "./Routing/routes";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const router = createBrowserRouter(routes);
+
 root.render(
   <Provider store={store}>
     <React.StrictMode>

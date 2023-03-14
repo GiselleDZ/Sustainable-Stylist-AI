@@ -1,0 +1,19 @@
+.about {
+  width: 400px;
+  margin-top: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.actions {
+  list-style: none;
+  /* list-style-position: inside; */
+  margin-left: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
