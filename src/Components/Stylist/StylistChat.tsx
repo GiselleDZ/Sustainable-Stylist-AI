@@ -68,38 +68,37 @@ const StylistChat = ({ messages }: StylistChatProps) => {
   };
 
   return (
-    <section className="stylist">
-      <h1>Stylist Chat</h1>
-      <div id="chatbox">
-        {messages.map((m: any, i: number) => (
-          <div key={i}>
-            <p className={`chat-message ${m.role}`}>{m.content}</p>
-          </div>
-        ))}
-        <div id="anchor"></div>
-      </div>
-      <form
-        onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
-          submitMessage(event)
-        }
-      >
-        <div className="text-input">
-          <textarea
-            required
-            placeholder="Your response..."
-            rows={5}
-            cols={34}
-            id="textinput"
-            {...bindMessage}
-            onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) =>
-              e.key === "Enter" && submitMessage(e)
-            }
-          />
-          <label htmlFor="#textinput">Enter to submit</label>
-          {/* <button type="submit">SUBMIT</button> */}
+    <>
+      <h3 id="stylist-header">Chat with our AI Style Assistant</h3>
+      <section id="stylist">
+        <div id="chatbox">
+          {messages.map((m: any, i: number) => (
+            <div key={i}>
+              <p className={`chat-message ${m.role}`}>{m.content}</p>
+            </div>
+          ))}
+          <div id="anchor"></div>
         </div>
-      </form>
-    </section>
+        <form
+          onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
+            submitMessage(event)
+          }
+        >
+          <div className="text-input">
+            <textarea
+              required
+              placeholder="Your response..."
+              id="textinput"
+              {...bindMessage}
+              onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) =>
+                e.key === "Enter" && submitMessage(e)
+              }
+            />
+            <label htmlFor="#textinput">Enter to submit</label>
+          </div>
+        </form>
+      </section>
+    </>
   );
 };
 

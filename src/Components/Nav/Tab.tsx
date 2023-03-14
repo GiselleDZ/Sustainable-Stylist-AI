@@ -1,4 +1,4 @@
-import "./tab.css";
+import "./nav.css";
 
 type TabProps = {
   path: string;
