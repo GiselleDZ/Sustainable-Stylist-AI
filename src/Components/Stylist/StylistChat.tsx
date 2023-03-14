@@ -6,6 +6,7 @@ import { addMessages } from "../../Store/stylistChat";
 
 import UseInput from "../Hooks/UseInput";
 import "./stylist.css";
+import { generateKey } from "../../utils";
 
 type StylistChatProps = {
   messages: Array<Object>;
@@ -73,7 +74,7 @@ const StylistChat = ({ messages }: StylistChatProps) => {
       <section id="stylist">
         <div id="chatbox">
           {messages.map((m: any, i: number) => (
-            <div key={i}>
+            <div key={generateKey(`stylistMsg_${i}`)}>
               <p className={`chat-message ${m.role}`}>{m.content}</p>
             </div>
           ))}
@@ -94,7 +95,9 @@ const StylistChat = ({ messages }: StylistChatProps) => {
                 e.key === "Enter" && submitMessage(e)
               }
             />
-            <label htmlFor="#textinput">Enter to submit</label>
+            <label htmlFor="#textinput" id="input-label">
+              Enter to Submit
+            </label>
           </div>
         </form>
       </section>

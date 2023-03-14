@@ -1,21 +1,21 @@
 import routes from "../../Routing/routes";
 import Tab from "./Tab";
 import "./nav.css";
+import { Link } from "react-router-dom";
+import { generateKey } from "../../utils";
 
 const Nav = () => {
-  const location = window.location.pathname;
-
   return (
     <>
       <nav>
         {routes.map((tab: { path: string }, i: number) => (
-          <Tab path={tab.path} key={i} selected={location === tab.path} />
+          <Tab path={tab.path} key={generateKey(`NavTab_${i}`)} />
         ))}
       </nav>
-      {location !== "/" && (
-        <a href="/" id="close-tab">
+      {window.location.pathname !== "/" && (
+        <Link to="/" id="close-tab">
           X
-        </a>
+        </Link>
       )}
     </>
   );

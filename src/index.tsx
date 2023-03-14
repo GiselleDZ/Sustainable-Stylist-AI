@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./Store/store";
@@ -18,8 +22,9 @@ const router = createBrowserRouter(routes);
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <RouterProvider router={router} />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>
 );

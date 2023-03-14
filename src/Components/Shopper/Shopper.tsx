@@ -9,8 +9,8 @@ const Shopper = () => {
   const [searchString, setSearchString] = useState("");
   return (
     <>
-      {/* <Search setSearchString={setSearchString} />
-      <DepopScraper searchString={searchString} /> */}
+      <Search setSearchString={setSearchString} />
+      <DepopScraper searchString={searchString} />
     </>
   );
 };

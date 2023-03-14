@@ -1,17 +1,20 @@
+import { Link, NavLink } from "react-router-dom";
 import "./nav.css";
 
 type TabProps = {
   path: string;
-  selected: boolean;
 };
 
-const Tab = ({ path, selected }: TabProps) => {
+const Tab = ({ path }: TabProps) => {
   const tabName = path.slice(1, path.length);
 
   return (
-    <a href={path} className={`tab ${selected ? "selected" : "option"}`}>
+    <NavLink
+      to={path}
+      className={({ isActive }) => `tab ${isActive ? "selected" : "option"}`}
+    >
       <h3 className="tab-text">{tabName || "HOME"}</h3>
-    </a>
+    </NavLink>
   );
 };
 

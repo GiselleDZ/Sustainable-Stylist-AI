@@ -1,6 +1,7 @@
 import React from "react";
 
 import UseInput from "../Hooks/UseInput";
+import "./search.css";
 
 type searchProps = {
   setSearchString: Function;
@@ -18,10 +19,18 @@ const Search = ({ setSearchString }: searchProps) => {
   };
 
   return (
-    <div>
-      <h3>Search</h3>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="search" placeholder="Search" {...bindSearch} />
+    <div id="search">
+      <h4>
+        Use this search to find vintage and pre-owned items in multiple
+        retailers at once.
+      </h4>
+      <form onSubmit={(e) => handleSubmit(e)} id="search-form">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search"
+          {...bindSearch}
+        />
         <button type="submit">Search</button>
       </form>
     </div>

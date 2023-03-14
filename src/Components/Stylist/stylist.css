@@ -56,13 +56,16 @@ textarea {
   white-space: wrap;
   word-wrap: break-word;
   height: 80px;
-  width: 168%;
+  width: 155%;
+  position: relative;
+  margin-bottom: 20px;
 }
 
-label {
-  margin-top: -10px;
+#input-label {
+  position: absolute;
+  margin: -10px 0 20px 15px;
+  padding-bottom: 20px;
   font-size: x-small;
-  text-align: left;
 }
 
 .chat-message {
@@ -91,5 +94,9 @@ label {
 
   #textinput {
     width: 138%;
+  }
+
+  #input-label {
+    margin: -10px 0 20px 0px;
   }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Listing from "../Shopper/Listings";
+import { generateKey } from "../../utils";
 
 type DepopScraperProps = {
   searchString: string;
@@ -56,7 +57,7 @@ const DepopScraper = ({ searchString }: DepopScraperProps) => {
             ) =>
               !!li.image && (
                 <Listing
-                  key={i}
+                  key={generateKey(`depopListing_${i}`)}
                   image={li.image}
                   price={li.price}
                   text={li.alt}
