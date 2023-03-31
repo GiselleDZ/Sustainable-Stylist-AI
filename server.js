@@ -3,11 +3,15 @@ const express = require("express");
 const cors = require("cors");
 const { Configuration, OpenAIApi } = require("openai");
 
-const { gptInstructions, stylistMessages } = require("./server/utilities");
+const {
+  gptInstructions,
+  stylistMessages,
+  summaryPrompt,
+} = require("./server/utilities");
 
 // create app
 const app = express();
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "http://localhost:3001" }));
 
 // scrape request
 app.get("/scrape-depop", async (req, res) => {
@@ -68,15 +72,21 @@ app.get("/scrape-depop", async (req, res) => {
 
 app.get("/stylist", async (req, res) => {
   try {
+    // a list of all messages not yet included in the summary
     const messages = req.query.messages;
 
-    if (!messages?.length) {
+    // after each user response, we create a summary of the conversation to shrink our token usage and prevent url from exceeding length limits
+    const summary = req.query.summary;
+
+    // when there is no summary, we have not yet made any requests, so we return the default initial messages
+    if (!summary?.length) {
       const parsedMessages = stylistMessages.map((m) => ({
         role: "assistant",
         content: m,
       }));
       res.send(parsedMessages);
     } else {
+      // when there is a summary and messages we send them along for a GPT response
       const configuration = new Configuration({
         apiKey: "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",
       });
@@ -84,11 +94,44 @@ app.get("/stylist", async (req, res) => {
 
       const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: gptInstructions }, ...messages],
+        messages: [
+          // include our original instructions
+          { role: "assistant", content: gptInstructions },
+          // summary
+          { role: "user", content: summary },
+          // messages not yet included in summary
+          ...messages,
+        ],
         stop: ["user"],
       });
+
+      // return the single response msg
+      console.log("got response");
       res.send([completion.data.choices[0].message]);
     }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/stylist-summary", async (req, res) => {
+  try {
+    const configuration = new Configuration({
+      apiKey: "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",
+    });
+    const openai = new OpenAIApi(configuration);
+
+    const completion = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `${summaryPrompt} ${
+        req.query.summary
+      }. Messages: ${req.query.messages.map((m) => `${m.role}: ${m.content}`)}`,
+      temperature: 0,
+      max_tokens: 300,
+    });
+
+    console.log("got summary");
+    res.send(completion.data.choices[0].text);
   } catch (error) {
     console.log(error);
   }

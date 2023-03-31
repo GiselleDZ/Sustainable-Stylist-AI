@@ -1,9 +1,11 @@
 #about {
   width: 400px;
-  /* margin-top: 15%; */
   display: flex;
+  margin-top: 20%;
   flex-direction: column;
   justify-content: center;
+  align-content: center;
+  align-items: center;
   text-align: center;
   font-family: "Courier New", Courier, monospace;
 }

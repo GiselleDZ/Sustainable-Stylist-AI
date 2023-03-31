@@ -1,7 +1,7 @@
 import About from "../Components/About/About";
 import Home from "../Components/Home/Home";
 import Shopper from "../Components/Shopper/Shopper";
-import StylistChat from "../Components/Stylist/StylistChat";
+import Stylist from "../Components/Stylist/Stylist";
 import ErrorPage from "./ErrorPage";
 
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: "/stylist",
-    element: <StylistChat />,
+    element: <Stylist />,
   },
   {
     path: "/shopper",
