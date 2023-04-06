@@ -1,0 +1,11 @@
+#post-stylist-instruction {
+  width: 300px;
+  margin-left: 50px;
+}
+
+.recommendation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

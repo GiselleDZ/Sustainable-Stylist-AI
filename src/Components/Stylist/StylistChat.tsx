@@ -2,7 +2,7 @@ import axios from "axios";
 import { KeyboardEvent, useEffect } from "react";
 import type { RootState } from "../../Store/store";
 import { useDispatch, connect } from "react-redux";
-import { addMessages } from "../../Store/stylistChat";
+import { addMessages, addSummary } from "../../Store/stylistChat";
 
 import UseInput from "../Hooks/UseInput";
 import "./stylist.css";
@@ -10,9 +10,10 @@ import { generateKey } from "../../utils";
 
 type StylistChatProps = {
   messages: Array<Object>;
+  summary: string;
 };
 
-const StylistChat = ({ messages }: StylistChatProps) => {
+const StylistChat = ({ messages, summary }: StylistChatProps) => {
   const dispatch = useDispatch();
 
   let initialFetched = false;
@@ -36,42 +37,61 @@ const StylistChat = ({ messages }: StylistChatProps) => {
 
   useEffect(() => {
     if (!messages.length && !initialFetched) {
-      // console.log("INDDEED MESSAGES IS EMPTY", message);
       initialFetched = true;
       fetchStylistMessage(null);
     }
   }, []);
 
-  const fetchStylistMessage = async (msg: string | null) => {
+  const getConversationSummary = async (msg: object) => {
     try {
-      const msgs = !!message
-        ? [...messages, { role: "user", content: msg }]
-        : messages;
-      console.log(messages.length, messages);
-      const res = await axios.get(`http://192.168.1.193:8000/stylist`, {
+      const msgsToSum = !summary.length
+        ? messages
+        : [messages[messages.length - 1]];
+
+      const res = await axios.get(`http://10.0.0.168:8000/stylist-summary`, {
         params: {
-          messages: msgs,
+          messages: [...msgsToSum, msg],
+          summary,
         },
       });
+      dispatch(addSummary(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchStylistMessage = async (msg: object | null) => {
+    try {
+      const msgs = !!msg ? [...messages, msg] : messages;
+
+      const res = await axios.get(`http://10.0.0.168:8000/stylist`, {
+        params: {
+          messages: msgs,
+          summary: summary,
+        },
+      });
+      getConversationSummary({ role: "assistant", content: res.data });
       dispatch(addMessages(res.data));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const submitMessage = (
+  const submitMessage = async (
     e: React.ChangeEvent<HTMLFormElement> | KeyboardEvent<HTMLTextAreaElement>
   ) => {
+    const newMsg = { role: "user", content: message };
     e.preventDefault();
-    dispatch(addMessages([{ role: "user", content: message }]));
-    fetchStylistMessage(message);
+    dispatch(addMessages([newMsg]));
+    fetchStylistMessage(newMsg);
     resetToInitialVal();
   };
 
   return (
     <>
-      <h3 id="stylist-header">Chat with our AI Style Assistant</h3>
-      <section id="stylist">
+      <section id="stylist-chat">
+        <h3 id="stylist-header">Chat with our AI Style Assistant</h3>
+        <div id="stylist-fadeout" />
         <div id="chatbox">
           {messages.map((m: any, i: number) => (
             <div key={generateKey(`stylistMsg_${i}`)}>
@@ -107,5 +127,5 @@ const StylistChat = ({ messages }: StylistChatProps) => {
 
 export default connect((state: RootState) => {
   const { stylistChat } = state;
-  return { messages: stylistChat.messages };
+  return { messages: stylistChat.messages, summary: stylistChat.summary };
 })(StylistChat);
