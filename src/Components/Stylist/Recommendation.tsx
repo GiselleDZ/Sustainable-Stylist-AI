@@ -16,13 +16,17 @@ const Recommendation = ({
 
   return (
     <div className={`recommendation ${liked && "liked"}`}>
-      <h4 className="rec">{recommendation}</h4>
       <div
         onClick={() => dispatch(likeRecommendation(index))}
         className="rec-heart"
       >
-        {liked ? <span>&#x2764;</span> : <span>&#x2661;</span>}
+        {liked ? (
+          <span className="heart">&#x2764;</span>
+        ) : (
+          <span className="heart">&#x2661;</span>
+        )}
       </div>
+      <h4 className="rec">{recommendation.trim()}</h4>
     </div>
   );
 };

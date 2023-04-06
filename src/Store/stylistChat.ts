@@ -6,6 +6,7 @@ export interface StylistChatState {
   summary: string;
   recommendations: Array<string>;
   likedRecommendations: { [index: number]: boolean };
+  mode: string;
 }
 
 const initialState: StylistChatState = {
@@ -13,6 +14,7 @@ const initialState: StylistChatState = {
   summary: "",
   recommendations: [],
   likedRecommendations: {},
+  mode: "",
 };
 
 export const stylistChatSlice = createSlice({
