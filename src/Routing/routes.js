@@ -1,4 +1,5 @@
 import About from "../Components/About/About";
+import BlogPage from "../Components/Blog/BlogPage";
 import Home from "../Components/Home/Home";
 import Shopper from "../Components/Shopper/Shopper";
 import Stylist from "../Components/Stylist/Stylist";
@@ -21,6 +22,10 @@ const routes = [
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/blog",
+    element: <BlogPage />,
   },
 ];
 

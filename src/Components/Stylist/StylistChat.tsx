@@ -42,35 +42,14 @@ const StylistChat = ({ messages, summary }: StylistChatProps) => {
     }
   }, []);
 
-  const getConversationSummary = async (msg: object) => {
-    try {
-      const msgsToSum = !summary.length
-        ? messages
-        : [messages[messages.length - 1]];
-
-      const res = await axios.get(`http://10.0.0.168:8000/stylist-summary`, {
-        params: {
-          messages: [...msgsToSum, msg],
-          summary,
-        },
-      });
-      dispatch(addSummary(res.data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const fetchStylistMessage = async (msg: object | null) => {
     try {
       const msgs = !!msg ? [...messages, msg] : messages;
 
-      const res = await axios.get(`http://10.0.0.168:8000/stylist`, {
-        params: {
-          messages: msgs,
-          summary: summary,
-        },
-      });
-      getConversationSummary({ role: "assistant", content: res.data });
+      const data = { messages: msgs };
+
+      const res = await axios.post(`http://192.168.1.193:8000/stylist`, data);
+      // getConversationSummary({ role: "assistant", content: res.data });
       dispatch(addMessages(res.data));
     } catch (error) {
       console.log(error);
@@ -90,7 +69,7 @@ const StylistChat = ({ messages, summary }: StylistChatProps) => {
   return (
     <>
       <section id="stylist-chat">
-        <h3 id="stylist-header">Chat with our AI Style Assistant</h3>
+        <h5 id="stylist-header">Chat with our AI Style Assistant</h5>
         <div id="stylist-fadeout" />
         <div id="chatbox">
           {messages.map((m: any, i: number) => (

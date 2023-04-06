@@ -6,57 +6,56 @@ import { addRecommendations } from "../../Store/stylistChat";
 import { extractRecommendations, generateKey } from "../../utils";
 import Recommendation from "./Recommendation";
 import "./recommendations.css";
+import { useState } from "react";
 
 interface ResultSearchOptionsProps {
-  summary: string;
   recommendations: string[];
   likedRecommendations: { [index: number]: boolean };
-  lastMessage: { role: string; content: string };
+  messages: Object[];
 }
 
 const ResultSearchOptions = ({
-  summary,
   recommendations,
   likedRecommendations,
-  lastMessage,
+  messages,
 }: ResultSearchOptionsProps) => {
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const fetchRecommendations = async () => {
-    console.log(recommendations);
-    if (lastMessage.content.includes("--")) {
-      console.log("it does include!");
-      const recommendations = extractRecommendations(lastMessage.content);
-      dispatch(addRecommendations(recommendations));
-    } else {
-      console.log("does not include");
-      try {
-        const res = await axios.get(`http://10.0.0.168:8000/stylist`, {
-          params: {
-            messages: "",
-            summary: summary,
-          },
-        });
-        console.log(res.data);
+    try {
+      setError("");
+      const data = { messages: messages };
+      const res = await axios.post(
+        `http://192.168.1.193:8000/stylist-recs`,
+        data
+      );
+      console.log(res.data);
+      if (res.data.includes("Insufficient")) setError(res.data);
+      else {
         const recommendations = extractRecommendations(res.data[0].content);
         dispatch(addRecommendations(recommendations));
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <>
       <section id="post-stylist-instruction">
-        <h3>What's next?</h3>
         <p>
-          Once you're happy with our assistants suggestions, click the button
-          below to see all your recommendations. Click one to preview the
-          results. Heart the recommendations you like to save them, and they
-          will appear in your search tab.
+          Once the assistant thinks you're ready, click to get your
+          recommendations!
         </p>
-        <button onClick={() => fetchRecommendations()}>I'm all set!</button>
+        <p>
+          Hint: if you heart the recommendations you like, they will appear in
+          your Shopper tab to make the search easier!
+        </p>
+        {!!error.length && <h1>{error}</h1>}
+        <button onClick={() => fetchRecommendations()}>
+          Get your recommendations!
+        </button>
         <ul id="recommendation-list">
           {recommendations.map((rec: string, i: number) => (
             <li key={generateKey(`recommendation-${i}`)}>
@@ -77,9 +76,8 @@ export default connect((state: RootState) => {
   const { stylistChat } = state;
   const messages = stylistChat.messages;
   return {
-    summary: stylistChat.summary,
     recommendations: stylistChat.recommendations,
     likedRecommendations: stylistChat.likedRecommendations,
-    lastMessage: messages[messages.length - 1],
+    messages,
   };
 })(ResultSearchOptions);

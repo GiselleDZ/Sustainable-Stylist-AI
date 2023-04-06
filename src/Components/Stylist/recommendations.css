@@ -6,6 +6,23 @@
 .recommendation {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: baseline;
+}
+
+.rec {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 1.3em;
+  font-weight: 400;
+  text-align: left;
+}
+
+.rec-heart {
+  margin-right: 10px;
+}
+
+.heart {
+  font-size: 2em;
 }
