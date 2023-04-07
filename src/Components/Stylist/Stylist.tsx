@@ -4,6 +4,7 @@ import ResultSearchOptions from "./ResultSearchOptions";
 import StylistChat from "./StylistChat";
 import "./stylist.css";
 import Modal from "../Library/Modal";
+import SelectMode from "./SelectMode";
 
 type StylistProps = {
   mode: string;
@@ -12,7 +13,11 @@ type StylistProps = {
 const Stylist = ({ mode }: StylistProps) => {
   return (
     <div id="stylist-page">
-      {!mode && <Modal>Hello this is hopefully a modal</Modal>}
+      {!mode && (
+        <Modal>
+          <SelectMode />
+        </Modal>
+      )}
       <div id="stylist">
         <StylistChat />
         <ResultSearchOptions />
