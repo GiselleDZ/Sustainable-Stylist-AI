@@ -6,16 +6,17 @@
   height: 100%;
   z-index: 10;
   backdrop-filter: blur(10px);
-  background-color: white;
+  background-color: var(--bg-color);
 }
 
 .modal {
   position: absolute;
-  top: 20vw;
-  left: calc(50vh - 300px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 300px;
-  background-color: black;
+  background-color: var(--secondary-accent);
   border-radius: 8px;
-  color: white;
+  color: var(--fg-color);
   padding: 20px;
 }

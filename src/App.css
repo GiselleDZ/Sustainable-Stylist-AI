@@ -15,12 +15,32 @@ button {
   font-size: medium;
   border: none;
   border-radius: 6px;
-  background-color: black;
-  color: white;
+  box-shadow: var(--box-shadow);
 }
 
-button ::hover {
-  transform: scale(2);
+button:hover {
+  transform: scale(1.02);
+}
+
+.btn-primary {
+  background-color: var(--fg-color);
+  color: var(--bg-color);
+}
+
+.btn-secondary {
+  background-color: var(--fg-color);
+  color: var(--bg-color);
+  font-weight: 600;
+}
+
+.btn-tertiary {
+  background-color: var(--primary-accent);
+  color: var(--fg-color);
+  font-weight: 600;
+}
+
+.navigation-error {
+  color: var(--primary-accent);
 }
 
 /* Headings */
@@ -30,7 +50,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Playfair Display", serif;
+  font-family: "Abril Fatface", cursive;
   line-height: 1.2;
   font-weight: 500;
   margin-bottom: 16px;
@@ -72,11 +92,12 @@ a {
   font-size: 1em;
   font-weight: 400;
   text-decoration: none;
-  color: #000;
+  color: var(--primary-accent);
 }
 
 a:hover {
   text-decoration: underline;
+  color: var(--tertiary-accent);
 }
 
 /* Lists */

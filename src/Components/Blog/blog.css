@@ -17,9 +17,11 @@
 .blog-thumb {
   width: 25vw;
   margin: 20px;
-  border: 1px solid black;
+  border: 1px solid var(--fg-color);
+  border-radius: 8px;
   min-width: 300px;
   word-wrap: normal;
+  background-color: var(--secondary-accent);
 }
 
 .blog-thumb-image {
@@ -40,7 +42,7 @@
   align-self: center;
   margin: 0 auto;
   margin-top: 40px;
-  border: 1px solid black;
+  border: 1px solid var(--fg-color);
 }
 
 .blog-cover {

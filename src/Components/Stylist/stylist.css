@@ -2,6 +2,12 @@
   position: relative;
 }
 
+#select-mode {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 #stylist {
   display: flex;
   flex-direction: row;
@@ -16,7 +22,7 @@
   align-content: center;
   justify-content: center;
   min-height: 500px;
-  border: 1px solid black;
+  border: 1px solid var(--fg-color);
   padding: 20px;
   font-size: 14px;
 }
@@ -64,6 +70,20 @@ form {
   justify-content: space-between;
   align-items: stretch;
   margin-top: 20px;
+}
+
+.mode {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-mode {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.btn-confirm {
+  background-color: yellow !important;
 }
 
 .textinput {

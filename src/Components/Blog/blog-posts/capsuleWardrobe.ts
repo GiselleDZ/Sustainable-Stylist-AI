@@ -17,7 +17,7 @@ A capsule wardrobe comprises a limited number of versatile, high-quality garment
 
 1. Discover your personal style: Our AI stylist analyzes your preferences, lifestyle, and body shape to identify your unique style. By understanding your personal style, you can build a wardrobe that genuinely reflects who you are.
 2. Assess your current wardrobe: Before building your capsule wardrobe, evaluate your existing clothes. Identify pieces that match your style, are versatile, and can be included in your capsule collection.
-3. Select essential items: A capsule wardrobe should include timeless, essential items like a well-fitting pair of jeans, a classic white shirt, a tailored blazer, and a versatile dress. These foundational pieces can be easily mixed and matched to create various outfits.
+3. Select essential items: A capsule wardrobe should include timeless, essential items like a well-fitting pair of jeans, a classic var(--bg-color) shirt, a tailored blazer, and a versatile dress. These foundational pieces can be easily mixed and matched to create various outfits.
 4. Choose a color palette: Stick to a cohesive color scheme that complements your personal style and makes it easy to combine garments seamlessly. Neutrals like black, white, beige, and a few accent colors work well.
 5. Invest in quality: Focus on purchasing high-quality, durable garments from sustainable materials. These items may be more expensive initially, but they'll last longer and contribute to a more eco-friendly wardrobe.
 6. Accessorize: Use accessories to add personality and versatility to your outfits. A few well-chosen accessories like scarves, belts, and jewelry can transform the look of your capsule pieces, giving you even more outfit options.

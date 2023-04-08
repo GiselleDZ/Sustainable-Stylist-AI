@@ -6,7 +6,7 @@ export interface StylistChatState {
   summary: string;
   recommendations: Array<string>;
   likedRecommendations: { [index: number]: boolean };
-  mode: string;
+  mode: "Refine" | "Update" | "Build" | "";
 }
 
 const initialState: StylistChatState = {
@@ -42,6 +42,9 @@ export const stylistChatSlice = createSlice({
     unlikeRecommendation: (state, action: PayloadAction<number>) => {
       state.likedRecommendations[action.payload] = false;
     },
+    setMode: (state, action: PayloadAction<"Refine" | "Update" | "Build">) => {
+      state.mode = action.payload;
+    },
   },
 });
 
@@ -52,6 +55,7 @@ export const {
   addRecommendations,
   likeRecommendation,
   unlikeRecommendation,
+  setMode,
 } = stylistChatSlice.actions;
 
 export default stylistChatSlice.reducer;

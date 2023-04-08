@@ -26,7 +26,7 @@ nav {
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  color: black;
+  color: var(--fg-color);
 }
 
 .tab {
@@ -34,7 +34,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--bg-color);
   text-decoration: none;
   width: 35px;
 }
@@ -44,7 +44,7 @@ nav {
   writing-mode: vertical-rl;
   text-orientation: upright;
   text-transform: uppercase;
-  color: black;
+  color: var(--fg-color);
   font-size: 12px;
   font-weight: 500;
 }
@@ -56,7 +56,7 @@ nav {
 
 .option {
   border-width: 0.5px 1px 0.5px 0;
-  border-color: black;
+  border-color: var(--fg-color);
   border-style: solid;
   border-radius: 0 8px 8px 0;
   box-shadow: 11px -1px 18px -6px rgba(0, 0, 0, 0.1);
