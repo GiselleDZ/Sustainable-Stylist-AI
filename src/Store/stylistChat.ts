@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Message } from "../types";
 
 export interface StylistChatState {
-  messages: Array<{ role: string; content: string }>;
+  messages: Message[];
   summary: string;
   recommendations: Array<string>;
   likedRecommendations: { [index: number]: boolean };
@@ -21,10 +22,7 @@ export const stylistChatSlice = createSlice({
   name: "stylistChat",
   initialState,
   reducers: {
-    addMessages: (
-      state,
-      action: PayloadAction<Array<{ role: string; content: string }>>
-    ) => {
+    addMessages: (state, action: PayloadAction<Message[]>) => {
       action.payload.map((m) => state.messages.push(m));
     },
     clearMessages: (state) => {

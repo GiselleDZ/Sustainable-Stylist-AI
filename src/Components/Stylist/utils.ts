@@ -23,9 +23,9 @@ type ModeType = {
   description: string;
 };
 
-export const blankMode = <ModeType>{ name: "", description: "" };
+export const blankMode = { name: "", description: "" } as ModeType;
 
-export const modes = <ModeType[]>[
+export const modes: ModeType[] = [
   {
     name: "Refine",
     description:

@@ -1,55 +1,53 @@
 import axios from "axios";
-import { KeyboardEvent, useEffect } from "react";
-import type { RootState } from "../../Store/store";
-import { useDispatch, connect } from "react-redux";
-import { addMessages, addSummary } from "../../Store/stylistChat";
+import { KeyboardEvent, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Text, Textarea } from "@chakra-ui/react";
 
+import type { RootState } from "../../Store/store";
+import { addMessages } from "../../Store/stylistChat";
+import type { Message } from "../../types";
 import UseInput from "../Hooks/UseInput";
-import "./stylist.css";
 import { generateKey } from "../../utils";
 
-type StylistChatProps = {
-  messages: Array<Object>;
-  summary: string;
-};
-
-const StylistChat = ({ messages, summary }: StylistChatProps) => {
+const StylistChat = () => {
   const dispatch = useDispatch();
+  const messages = useSelector(
+    (state: RootState) => state.stylistChat.messages
+  );
+  const initialFetched = useRef(false);
 
-  let initialFetched = false;
-
-  let initialValue = "";
   const {
     value: message,
     bind: bindMessage,
     reset: resetToInitialVal,
   } = UseInput({
-    initialValue,
+    initialValue: "",
     valueTransformer: undefined,
   });
 
   useEffect(() => {
     const chatbox = document.getElementById("chatbox");
     const anchorTop = document.getElementById("anchor")?.offsetTop;
-    if (!!chatbox && !!anchorTop && anchorTop > chatbox?.clientHeight)
+    if (chatbox && anchorTop && anchorTop > chatbox.clientHeight) {
       chatbox.scrollTop = anchorTop;
+    }
   }, [messages]);
 
   useEffect(() => {
-    if (!messages.length && !initialFetched) {
-      initialFetched = true;
+    if (!initialFetched.current && messages.length === 0) {
+      initialFetched.current = true;
       fetchStylistMessage(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchStylistMessage = async (msg: object | null) => {
+  const fetchStylistMessage = async (msg: Message | null) => {
     try {
-      const msgs = !!msg ? [...messages, msg] : messages;
-
-      const data = { messages: msgs };
-
-      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/stylist/stylist`, data);
-      // getConversationSummary({ role: "assistant", content: res.data });
+      const msgs = msg ? [...messages, msg] : messages;
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/stylist/stylist`,
+        { messages: msgs }
+      );
       dispatch(addMessages(res.data));
     } catch (error) {
       console.log(error);
@@ -57,54 +55,103 @@ const StylistChat = ({ messages, summary }: StylistChatProps) => {
   };
 
   const submitMessage = async (
-    e: React.ChangeEvent<HTMLFormElement> | KeyboardEvent<HTMLTextAreaElement>
+    e: React.FormEvent<HTMLFormElement> | KeyboardEvent<HTMLTextAreaElement>
   ) => {
-    const newMsg = { role: "user", content: message };
     e.preventDefault();
+    const newMsg: Message = { role: "user", content: message };
     dispatch(addMessages([newMsg]));
     fetchStylistMessage(newMsg);
     resetToInitialVal();
   };
 
   return (
-    <>
-      <section id="stylist-chat">
-        <h5 id="stylist-header">Chat with our AI Style Assistant</h5>
-        <div id="stylist-fadeout" />
-        <div id="chatbox">
-          {messages.map((m: any, i: number) => (
-            <div key={generateKey(`stylistMsg_${i}`)}>
-              <p className={`chat-message ${m.role}`}>{m.content}</p>
-            </div>
-          ))}
-          <div id="anchor"></div>
-        </div>
-        <form
-          onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
-            submitMessage(event)
-          }
+    <Box
+      as="section"
+      id="stylist-chat"
+      display="flex"
+      flexDirection="column"
+      alignContent="center"
+      justifyContent="center"
+      minHeight="500px"
+      border="1px solid var(--fg-color)"
+      padding="20px"
+      fontSize="14px"
+      position="relative"
+    >
+      <Text
+        fontWeight="600"
+        textAlign="left"
+        mb="10px"
+        position="relative"
+        zIndex={2}
+      >
+        Chat with our AI Style Assistant
+      </Text>
+      <Box
+        position="absolute"
+        width="285px"
+        height="50px"
+        top="100px"
+        background="linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
+      />
+      <Box
+        id="chatbox"
+        width={{ base: "250px", md: "300px" }}
+        height="600px"
+        textAlign="right"
+        overflowY="scroll"
+        style={{ overflowAnchor: "none", scrollBehavior: "smooth" }}
+      >
+        {messages.map((m: Message, i: number) => (
+          <Box key={generateKey(`stylistMsg_${i}`)}>
+            <Text
+              textAlign="left"
+              paddingY="5px"
+              fontWeight={m.role === "user" ? 500 : 400}
+            >
+              {m.content}
+            </Text>
+          </Box>
+        ))}
+        <Box id="anchor" style={{ overflowAnchor: "auto", height: "1px" }} />
+      </Box>
+      <form onSubmit={submitMessage}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
+          alignContent="flex-start"
+          textAlign="left"
+          marginTop="20px"
+          position="relative"
         >
-          <div className="text-input">
-            <textarea
-              required
-              placeholder="Your response..."
-              id="textinput"
-              {...bindMessage}
-              onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) =>
-                e.key === "Enter" && submitMessage(e)
-              }
-            />
-            <label htmlFor="#textinput" id="input-label">
-              Enter to Submit
-            </label>
-          </div>
-        </form>
-      </section>
-    </>
+          <Textarea
+            required
+            placeholder="Your response..."
+            id="textinput"
+            {...bindMessage}
+            onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) =>
+              e.key === "Enter" && submitMessage(e)
+            }
+            height="80px"
+            width={{ base: "138%", md: "155%" }}
+            padding="5px"
+            marginBottom="20px"
+          />
+          <label
+            htmlFor="textinput"
+            style={{
+              position: "absolute",
+              fontSize: "x-small",
+              margin: "-10px 0 20px 15px",
+            }}
+          >
+            Enter to Submit
+          </label>
+        </Box>
+      </form>
+    </Box>
   );
 };
 
-export default connect((state: RootState) => {
-  const { stylistChat } = state;
-  return { messages: stylistChat.messages, summary: stylistChat.summary };
-})(StylistChat);
+export default StylistChat;

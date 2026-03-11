@@ -1,21 +1,17 @@
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
 
-import { RootState } from "../../Store/store";
 import { blankMode, modes } from "./utils";
 import { generateKey } from "../../utils";
 import { setMode } from "../../Store/stylistChat";
-
-type SelectModeProps = {
-  mode: "Refine" | "Update" | "Build" | "";
-};
 
 type ModeType = {
   name: "Refine" | "Update" | "Build" | "";
   description: string;
 };
 
-const SelectMode = ({ mode }: SelectModeProps) => {
+const SelectMode = () => {
   const dispatch = useDispatch();
 
   const [selectedMode, setSelectedMode] = useState<ModeType>(blankMode);
@@ -27,36 +23,30 @@ const SelectMode = ({ mode }: SelectModeProps) => {
   };
 
   return (
-    <div id="select-mode">
-      <h2>How can we help you with your style today?</h2>
-      <h5>Select the mode that best matches your needs</h5>
+    <VStack id="select-mode" width="100%" align="stretch" gap={3}>
+      <Heading size="md">How can we help you with your style today?</Heading>
+      <Text>Select the mode that best matches your needs</Text>
       {modes.map((m: ModeType, i) => (
-        <div className="mode" key={generateKey(`mode-${i}`)}>
-          <button
-            type="button"
-            className="btn-secondary btn-mode"
+        <Box key={generateKey(`mode-${i}`)}>
+          <Button
+            variant="outline"
+            width="full"
+            paddingY="6px"
             onClick={() =>
               setSelectedMode(selectedMode.name === m.name ? blankMode : m)
             }
           >
             {m.name}
-          </button>
-          {selectedMode === m && <p>{m.description}</p>}
-        </div>
+          </Button>
+          {selectedMode === m && <Text mt={2}>{m.description}</Text>}
+        </Box>
       ))}
-      {error && <p className="navigation-error">{error}</p>}
-      <button
-        className="btn-tertiary"
-        onClick={() => chooseSelectedMode(selectedMode.name)}
-      >
+      {error && <Text color="red.500">{error}</Text>}
+      <Button onClick={() => chooseSelectedMode(selectedMode.name)}>
         Get Styled!
-      </button>
-    </div>
+      </Button>
+    </VStack>
   );
 };
 
-export default connect((state: RootState) => {
-  return {
-    mode: state.stylistChat.mode,
-  };
-})(SelectMode);
+export default SelectMode;

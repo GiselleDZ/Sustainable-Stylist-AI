@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { HStack, Box, Text } from "@chakra-ui/react";
+
 import { likeRecommendation } from "../../Store/stylistChat";
 
 type RecommendationProps = {
@@ -15,19 +17,24 @@ const Recommendation = ({
   const dispatch = useDispatch();
 
   return (
-    <div className={`recommendation ${liked && "liked"}`}>
-      <div
+    <HStack alignItems="baseline" opacity={liked ? 1 : 0.75}>
+      <Box
         onClick={() => dispatch(likeRecommendation(index))}
-        className="rec-heart"
+        mr="10px"
+        cursor="pointer"
+        flexShrink={0}
       >
-        {liked ? (
-          <span className="heart">&#x2764;</span>
-        ) : (
-          <span className="heart">&#x2661;</span>
-        )}
-      </div>
-      <h4 className="rec">{recommendation.trim()}</h4>
-    </div>
+        <Text fontSize="2em">{liked ? "\u2764" : "\u2661"}</Text>
+      </Box>
+      <Text
+        fontFamily='"Open Sans", sans-serif'
+        fontWeight={400}
+        fontSize="1.3em"
+        textAlign="left"
+      >
+        {recommendation.trim()}
+      </Text>
+    </HStack>
   );
 };
 

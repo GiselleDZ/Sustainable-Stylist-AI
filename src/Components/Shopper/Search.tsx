@@ -1,13 +1,13 @@
 import React from "react";
+import { Box, Text, Input, Button, HStack } from "@chakra-ui/react";
 
 import UseInput from "../Hooks/UseInput";
-import "./search.css";
 
-type searchProps = {
-  setSearchString: Function;
+type SearchProps = {
+  setSearchString: (s: string) => void;
 };
 
-const Search = ({ setSearchString }: searchProps) => {
+const Search = ({ setSearchString }: SearchProps) => {
   const { value: search, bind: bindSearch } = UseInput({
     initialValue: "",
     valueTransformer: undefined,
@@ -19,21 +19,31 @@ const Search = ({ setSearchString }: searchProps) => {
   };
 
   return (
-    <div id="search">
-      <h4>
+    <Box
+      id="search"
+      width={{ base: "70%", md: "400px" }}
+      ml={{ base: "15%", md: "10px" }}
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+    >
+      <Text fontWeight="600" mb={2}>
         Use this search to find vintage and pre-owned items in multiple
         retailers at once.
-      </h4>
-      <form onSubmit={(e) => handleSubmit(e)} id="search-form">
-        <input
-          id="search-input"
-          type="search"
-          placeholder="Search"
-          {...bindSearch}
-        />
-        <button type="submit">Search</button>
+      </Text>
+      <form onSubmit={handleSubmit}>
+        <HStack id="search-form">
+          <Input
+            id="search-input"
+            type="search"
+            placeholder="Search"
+            mr="10px"
+            {...bindSearch}
+          />
+          <Button type="submit">Search</Button>
+        </HStack>
       </form>
-    </div>
+    </Box>
   );
 };
 

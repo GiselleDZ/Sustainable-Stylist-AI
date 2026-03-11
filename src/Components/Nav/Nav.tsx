@@ -1,44 +1,46 @@
+import { useLocation, Link } from "react-router-dom";
+import { Flex } from "@chakra-ui/react";
+
 import routes from "../../Routing/routes";
 import Tab from "./Tab";
-import "./nav.css";
-import { Link } from "react-router-dom";
 import { generateKey } from "../../utils";
-import { useEffect, useState } from "react";
 
 const Nav = () => {
-  // const [scrollable, setScrollable] = useState(false);
-
-  // console.log(document.documentElement.scrollHeight);
-  // useEffect(() => {
-  //   if (document.body.clientHeight > 2000) setScrollable(true);
-  //   else setScrollable(false);
-  // }, [document.body]);
+  const location = useLocation();
 
   return (
     <>
-      <nav>
+      <Flex
+        as="nav"
+        position="fixed"
+        zIndex={10}
+        height="100%"
+        left={0}
+        top={0}
+        flexDirection="column"
+        justifyContent="flex-start"
+        alignItems="stretch"
+      >
         {routes.map((tab: { path: string }, i: number) => (
           <Tab path={tab.path} key={generateKey(`NavTab_${i}`)} />
         ))}
-      </nav>
-      {window.location.pathname !== "/" && (
-        <Link to="/" id="close-tab">
+      </Flex>
+      {location.pathname !== "/" && (
+        <Link
+          to="/"
+          style={{
+            position: "fixed",
+            right: "20px",
+            top: "20px",
+            fontSize: "16px",
+            fontWeight: "600",
+            textDecoration: "none",
+            color: "var(--fg-color)",
+          }}
+        >
           X
         </Link>
       )}
-      {/* {scrollable && (
-        <button
-          onClick={() =>
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            })
-          }
-          id="back-to-top"
-        >
-          Back To Top
-        </button>
-      )} */}
     </>
   );
 };

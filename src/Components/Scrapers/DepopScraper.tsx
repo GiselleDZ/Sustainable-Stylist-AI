@@ -1,60 +1,57 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { Box, Heading, Button } from "@chakra-ui/react";
+
 import Listing from "../Shopper/Listings";
 import { generateKey } from "../../utils";
 
 type DepopScraperProps = {
   searchString: string;
 };
+
+type ListingItem = { image: string; price: number; alt: string; link: string };
+
 const DepopScraper = ({ searchString }: DepopScraperProps) => {
   const [totalListings, setTotalListings] = useState(0);
-  const [currentListings, setCurrentListings] = useState(Array(totalListings));
+  const [currentListings, setCurrentListings] = useState<ListingItem[]>([]);
   const [viewListings, setViewListings] = useState(false);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if (!currentListings.length) {
-      fetchListings();
-    }
+    fetchListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchListings = async () => {
     const parsedString = searchString.split(" ").join("-");
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/shopper/scrape-depop?searchstring=${parsedString}&page=${
-          page + 1
-        }`
+        `${process.env.REACT_APP_BACKEND_URL}/shopper/scrape-depop?searchstring=${parsedString}&page=${page + 1}`
       );
-      setPage(page + 1);
+      setPage((p) => p + 1);
       setTotalListings(res.data.numOfListings);
-      setCurrentListings([...res.data.elements, ...currentListings]);
+      setCurrentListings((prev) => [...res.data.elements, ...prev]);
     } catch (error) {
-      console.log("ERRRRORRR", error);
+      console.log("Depop scraper error", error);
     }
   };
 
-  const loadMoreItems = async () => {
-    fetchListings();
-  };
-
-  if (!currentListings?.length) return null;
+  if (!currentListings.length) return null;
 
   return (
-    <section className="depop-listings">
-      <h3
+    <Box as="section" mt={4}>
+      <Heading
+        size="md"
         onClick={() => setViewListings(!viewListings)}
-        className="depop-listings"
+        cursor="pointer"
+        mb={3}
       >
         {`${viewListings ? "Hide" : "View"} Depop Listings`}
-      </h3>
-      <div className="depop-listings">
+      </Heading>
+      <Box display="flex" flexWrap="wrap" gap={3}>
         {viewListings &&
           currentListings.map(
-            (
-              li: { image: string; price: number; alt: string; link: string },
-              i: number
-            ) =>
+            (li, i) =>
               !!li.image && (
                 <Listing
                   key={generateKey(`depopListing_${i}`)}
@@ -62,17 +59,17 @@ const DepopScraper = ({ searchString }: DepopScraperProps) => {
                   price={li.price}
                   text={li.alt}
                   link={li.link}
-                  root={"https://depop.com"}
+                  root="https://depop.com"
                 />
               )
           )}
-      </div>
-      <div className="depop-listings">
-        {currentListings.length < totalListings && viewListings && (
-          <h4 onClick={() => loadMoreItems()}>See more listings...</h4>
-        )}
-      </div>
-    </section>
+      </Box>
+      {currentListings.length < totalListings && viewListings && (
+        <Button variant="ghost" onClick={fetchListings} mt={2}>
+          See more listings...
+        </Button>
+      )}
+    </Box>
   );
 };
 

@@ -1,6 +1,5 @@
 import { useRouteError, isRouteErrorResponse } from "react-router-dom";
-
-import "./error.css";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -9,19 +8,19 @@ export default function ErrorPage() {
   const isResError = isRouteErrorResponse(error);
 
   return (
-    <div id="error-page">
-      <h1 id="error-title">Oops!</h1>
-      <h3>Sorry an unexpected error occured.</h3>
+    <Box id="error-page">
+      <Heading>Oops!</Heading>
+      <Heading size="md">Sorry an unexpected error occurred.</Heading>
       {isResError ? (
-        <div id="detailed-error">
-          <h2 id="error-status">
+        <Box id="detailed-error">
+          <Heading size="lg" id="error-status">
             {error.status}: {error.statusText}
-          </h2>
-          <p id="error-text">{error.data}</p>
-        </div>
+          </Heading>
+          <Text id="error-text">{error.data}</Text>
+        </Box>
       ) : (
-        <i>Unknown Error</i>
+        <Text as="i">Unknown Error</Text>
       )}
-    </div>
+    </Box>
   );
 }

@@ -1,34 +1,35 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { Box } from "@chakra-ui/react";
+
 import { RootState } from "../../Store/store";
 import ResultSearchOptions from "./ResultSearchOptions";
 import StylistChat from "./StylistChat";
-import "./stylist.css";
 import Modal from "../Library/Modal";
 import SelectMode from "./SelectMode";
 
-type StylistProps = {
-  mode: string;
-};
+const Stylist = () => {
+  const mode = useSelector((state: RootState) => state.stylistChat.mode);
 
-const Stylist = ({ mode }: StylistProps) => {
   return (
-    <div id="stylist-page">
+    <Box id="stylist-page" position="relative">
       {!mode && (
         <Modal>
           <SelectMode />
         </Modal>
       )}
-      <div id="stylist">
+      <Box
+        id="stylist"
+        display="flex"
+        flexDirection={{ base: "column", md: "row" }}
+        alignItems="flex-start"
+        justifyContent="space-between"
+        margin="50px 0"
+      >
         <StylistChat />
         <ResultSearchOptions />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
-export default connect((state: RootState) => {
-  const { stylistChat } = state;
-  return {
-    mode: stylistChat.mode,
-  };
-})(Stylist);
+export default Stylist;

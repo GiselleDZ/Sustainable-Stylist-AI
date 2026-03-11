@@ -1,41 +1,57 @@
 import { useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Box, Text, Image } from "@chakra-ui/react";
 
 import blogPosts, { blankPost } from ".";
-import "./blog.css";
 import { generateKey } from "../../utils";
 
 const BlogPage = () => {
   const [viewingPost, setViewingPost] = useState(blankPost);
 
   return (
-    <div id="blog">
-      <section className="blog-post-thumbnails">
+    <Box id="blog">
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        gap={4}
+        justifyContent="center"
+        p={4}
+      >
         {blogPosts.map((p, i) => (
-          <div
-            className="blog-thumb"
+          <Box
             key={generateKey(`blog-thumb-${i}`)}
             onClick={() =>
               viewingPost === p ? setViewingPost(blankPost) : setViewingPost(p)
             }
+            cursor="pointer"
+            width="200px"
           >
-            <img src={p.image} alt={p.alt} className="blog-thumb-image" />
-            <h3 className="thumb-title">{p.title}</h3>
-          </div>
+            <Image
+              src={p.image}
+              alt={p.alt}
+              width="200px"
+              height="150px"
+              objectFit="cover"
+            />
+            <Text fontWeight="600" mt={2}>
+              {p.title}
+            </Text>
+          </Box>
         ))}
-      </section>
+      </Box>
       {!!viewingPost.post && (
-        <section className="blog-post">
-          <img
+        <Box mt={6} maxW="800px" mx="auto" px={4}>
+          <Image
             src={viewingPost.image}
             alt={viewingPost.alt}
-            className="post-cover"
+            width="100%"
+            objectFit="cover"
           />
-          <h4>Posted: {viewingPost.date}</h4>
+          <Text mt={2}>Posted: {viewingPost.date}</Text>
           <ReactMarkdown children={viewingPost.post} className="post-content" />
-        </section>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
