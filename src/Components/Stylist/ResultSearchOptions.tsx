@@ -27,7 +27,7 @@ const ResultSearchOptions = ({
       setError("");
       const data = { messages: messages };
       const res = await axios.post(
-        `http://192.168.1.193:8000/stylist-recs`,
+        `${process.env.REACT_APP_BACKEND_URL}/stylist/stylist-recs`,
         data
       );
       console.log(res.data);

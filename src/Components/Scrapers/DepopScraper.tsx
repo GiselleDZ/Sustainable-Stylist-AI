@@ -22,7 +22,7 @@ const DepopScraper = ({ searchString }: DepopScraperProps) => {
     const parsedString = searchString.split(" ").join("-");
     try {
       const res = await axios.get(
-        `http://192.168.1.193:8000/scrape-depop?searchstring=${parsedString}&page=${
+        `${process.env.REACT_APP_BACKEND_URL}/shopper/scrape-depop?searchstring=${parsedString}&page=${
           page + 1
         }`
       );

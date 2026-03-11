@@ -48,7 +48,7 @@ const StylistChat = ({ messages, summary }: StylistChatProps) => {
 
       const data = { messages: msgs };
 
-      const res = await axios.post(`http://192.168.1.193:8000/stylist`, data);
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/stylist/stylist`, data);
       // getConversationSummary({ role: "assistant", content: res.data });
       dispatch(addMessages(res.data));
     } catch (error) {
